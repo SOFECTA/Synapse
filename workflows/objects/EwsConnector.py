@@ -2,6 +2,7 @@
 # -*- coding: utf8 -*-
 
 import logging
+import os
 from exchangelib import DELEGATE, Account, Credentials, Configuration, NTLM
 
 class EwsConnector:
@@ -15,13 +16,13 @@ class EwsConnector:
     def getAccount(self):
         self.logger.info('%s. getAccount starts', __name__)
         try:
-            username = self.cfg.get('EWS', 'username')
-            password = self.cfg.get('EWS', 'password')
-            authType = self.cfg.get('EWS', 'auth_type')
+            username = os.environ.get('EWS_USERNAME', self.cfg.get('EWS', 'username'))
+            password = os.environ.get('EWS_PASSWORD', self.cfg.get('EWS', 'password'))
+            authType = os.environ.get('EWS_AUTH_TYPE', self.cfg.get('EWS', 'auth_type'))
             credentials = Credentials(username=username, password=password)
-            
-            ews_server = self.cfg.get('EWS', 'server')
-            smtp_address = self.cfg.get('EWS', 'smtp_address')
+
+            ews_server = os.environ.get('EWS_SERVER', self.cfg.get('EWS', 'server'))
+            smtp_address = os.environ.get('EWS_SMTP_ADDRESS', self.cfg.get('EWS', 'smtp_address'))
 
             if authType == 'NTLM':
                 config = Configuration(server=ews_server,

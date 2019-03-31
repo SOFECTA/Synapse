@@ -2,6 +2,7 @@
 # -*- coding: utf8 -*-
 
 import logging
+import os
 import json
 
 from thehive4py.api import TheHiveApi
@@ -20,9 +21,8 @@ class TheHiveConnector:
     def connect(self):
         self.logger.info('%s.connect starts', __name__)
 
-        url = self.cfg.get('TheHive', 'url')
-        api_key = self.cfg.get('TheHive', 'api_key')
-
+        url = os.environ.get('THEHIVE_URL', self.cfg.get('TheHive', 'url'))
+        api_key = os.environ.get('THEHIVE_API_KEY', self.cfg.get('TheHive', 'api_key'))
         return TheHiveApi(url, api_key)
 
     def searchCaseByDescription(self, string):

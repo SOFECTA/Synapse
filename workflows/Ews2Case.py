@@ -23,7 +23,7 @@ def connectEws():
         cfg = getConf()
 
         ewsConnector = EwsConnector(cfg)
-        folder_name = cfg.get('EWS', 'folder_name')
+        folder_name = os.environ.get('EWS_FOLDER_NAME', self.cfg.get('EWS', 'folder_name'))
         unread = ewsConnector.scan(folder_name)
 
         theHiveConnector = TheHiveConnector(cfg)
@@ -32,7 +32,7 @@ def connectEws():
             #type(msg)
             #<class 'exchangelib.folders.Message'>
             conversationId = msg.conversation_id.id
-            
+
             #searching if case has already been created from the email
             #conversation
             esCaseId = theHiveConnector.searchCaseByDescription(conversationId)
