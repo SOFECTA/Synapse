@@ -23,7 +23,7 @@ def connectEws():
         cfg = getConf()
 
         ewsConnector = EwsConnector(cfg)
-        folder_name = os.environ.get('EWS_FOLDER_NAME', self.cfg.get('EWS', 'folder_name'))
+        folder_name = os.environ.get('EWS_FOLDER_NAME', cfg.get('EWS', 'folder_name'))
         unread = ewsConnector.scan(folder_name)
 
         theHiveConnector = TheHiveConnector(cfg)

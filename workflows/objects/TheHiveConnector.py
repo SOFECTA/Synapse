@@ -20,9 +20,9 @@ class TheHiveConnector:
 
     def connect(self):
         self.logger.info('%s.connect starts', __name__)
-
         url = os.environ.get('THEHIVE_URL', self.cfg.get('TheHive', 'url'))
         api_key = os.environ.get('THEHIVE_API_KEY', self.cfg.get('TheHive', 'api_key'))
+        self.logger.debug('TheHive, url: %s', url)
         return TheHiveApi(url, api_key)
 
     def searchCaseByDescription(self, string):

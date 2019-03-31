@@ -16,8 +16,13 @@ def getConf():
     confPath = app_dir + '/conf/synapse.conf'
     try:
         cfg.read(confPath)
+        #username = os.environ.get('EWS_USERNAME', cfg.set('EWS', 'username'))
+        #password = os.environ.get('EWS_PASSWORD', self.cfg.get('EWS', 'password'))
+        #authType = os.environ.get('EWS_AUTH_TYPE', self.cfg.get('EWS', 'auth_type'))
+        #ews_server = os.environ.get('EWS_SERVER', self.cfg.get('EWS', 'server'))
+        #smtp_address = os.environ.get('EWS_SMTP_ADDRESS', self.cfg.get('EWS', 'smtp_address'))
+        logger.info('Config: {}'.format(cfg))
         return cfg
     except Exception as e:
         logger.error('%s', __name__, exc_info=True)
-
 

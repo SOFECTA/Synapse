@@ -24,6 +24,8 @@ class EwsConnector:
             ews_server = os.environ.get('EWS_SERVER', self.cfg.get('EWS', 'server'))
             smtp_address = os.environ.get('EWS_SMTP_ADDRESS', self.cfg.get('EWS', 'smtp_address'))
 
+            self.logger.debug('EWS, server: {}, username: {}, authtype: {}, smtp address: {}'.format(ews_server, username, authType, smtp_address))
+ 
             if authType == 'NTLM':
                 config = Configuration(server=ews_server,
                     credentials=credentials,

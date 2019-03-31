@@ -16,20 +16,32 @@ app_dir = os.path.dirname(os.path.abspath(__file__))
 logger = logging.getLogger('workflows')
 if not logger.handlers:
     logger.setLevel(logging.DEBUG)
+
+    # create console handler and set level to debug
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+    # create formatter
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    # add formatter to ch
+    ch.setFormatter(formatter)
+    # add ch to logger
+    logger.addHandler(ch)
+
     #log format as: 2013-03-08 11:37:31,411 : : WARNING :: Testing foo
-    formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
+    #formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
     #handler writes into, limited to 1Mo in append mode
-    if not os.path.exists('logs'):
-        #create logs directory if does no exist (typically at first start)
-        os.makedirs('logs')
-    pathLog = app_dir + '/logs/synapse.log'
-    file_handler = logging.handlers.RotatingFileHandler(pathLog, 'a', 1000000, 1)
+    #if not os.path.exists('logs'):
+    #    #create logs directory if does no exist (typically at first start)
+    #    os.makedirs('logs')
+    #pathLog = app_dir + '/logs/synapse.log'
+    #file_handler = logging.handlers.RotatingFileHandler(pathLog, 'a', 1000000, 1)
+    #file_handler = logging.handlers.ConsoleHandler()
     #level debug
-    file_handler.setLevel(logging.DEBUG)
+    #file_handler.setLevel(logging.DEBUG)
     #using the format defined earlier
-    file_handler.setFormatter(formatter)
+    #file_handler.setFormatter(formatter)
     #Adding the file handler
-    logger.addHandler(file_handler)
+    #logger.addHandler(file_handler)
 
 app = Flask(__name__)
 
@@ -81,7 +93,9 @@ def getSynapseVersion():
 if __name__ == '__main__':
     cfg = getConf()
     app.run(debug=cfg.getboolean('api', 'debug'),
-        host=cfg.get('api', 'host'),
-        port=cfg.get('api', 'port'),
+        #host=cfg.get('api', 'host'),
+        host = os.environ.get('HOST', cfg.get('api', 'host')),
+        #port=cfg.get('api', 'port'),
+        port = os.environ.get('PORT', cfg.get('api', 'port')),
         threaded=cfg.get('api', 'threaded')
     )
